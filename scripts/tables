@@ -1,0 +1,13 @@
+#! /usr/bin/perl
+use Modern::Perl;
+use App::Tables;
+use YAML;
+
+my $app = App::Tables::init @ARGV;
+
+my ( $from, $to ) = map {
+    $$app{$_} or die YAML::Dump { "can't find key $_ in" => $app };
+    App::Tables::provider $$app{$_}
+} qw< from to >;
+
+$to->write( $from->read );
