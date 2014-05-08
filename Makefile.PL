@@ -23,16 +23,24 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "app::tables",
   "PREREQ_PM" => {
+    "Carp" => 0,
+    "Data::Table" => 0,
     "Data::Table::Excel" => 0,
+    "Excel::Writer::XLSX" => 0,
     "Exporter" => 0,
     "IO::All" => 0,
     "Modern::Perl" => 0,
-    "YAML" => 0
+    "Spreadsheet::ParseExcel" => 0,
+    "Spreadsheet::WriteExcel" => 0,
+    "Spreadsheet::XLSX" => 0,
+    "YAML" => 0,
+    "strict" => 0,
+    "vars" => 0
   },
   "TEST_REQUIRES" => {
     "Test::More" => 0
   },
-  "VERSION" => "0.2",
+  "VERSION" => "0.4",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -40,12 +48,20 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
+  "Carp" => 0,
+  "Data::Table" => 0,
   "Data::Table::Excel" => 0,
+  "Excel::Writer::XLSX" => 0,
   "Exporter" => 0,
   "IO::All" => 0,
   "Modern::Perl" => 0,
+  "Spreadsheet::ParseExcel" => 0,
+  "Spreadsheet::WriteExcel" => 0,
+  "Spreadsheet::XLSX" => 0,
   "Test::More" => 0,
-  "YAML" => 0
+  "YAML" => 0,
+  "strict" => 0,
+  "vars" => 0
 );
 
 

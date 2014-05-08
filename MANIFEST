@@ -8,6 +8,7 @@ README
 dist.ini
 eg/test.xls
 lib/App/Tables.pm
+lib/App/Tables/Excel.pm
 scripts/tables
 t/00_init.t
 t/01_file_spec.t

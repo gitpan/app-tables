@@ -14,12 +14,20 @@ meta-spec:
   version: '1.4'
 name: app-tables
 requires:
+  Carp: '0'
+  Data::Table: '0'
   Data::Table::Excel: '0'
+  Excel::Writer::XLSX: '0'
   Exporter: '0'
   IO::All: '0'
   Modern::Perl: '0'
+  Spreadsheet::ParseExcel: '0'
+  Spreadsheet::WriteExcel: '0'
+  Spreadsheet::XLSX: '0'
   YAML: '0'
+  strict: '0'
+  vars: '0'
 resources:
   homepage: https://github.com/eiro/app-tables
   repository: https://github.com/eiro/app-tables.git
-version: '0.2'
+version: '0.4'
