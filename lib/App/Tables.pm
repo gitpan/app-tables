@@ -55,7 +55,7 @@ sub read {
     my @headers;
     my @data = map {
         push @headers, m{ ([^/]+) $ }x; # basename
-        Data::Table::fromCSV $_ 
+        Data::Table::fromTSV $_ 
     } glob "$$self{base}/*";
     my %whole;
     @whole{ @headers } = @data;
@@ -66,13 +66,13 @@ sub write {
     my ( $self, $data ) = @_;
     map { -d $_ or io($_)->mkpath } $$self{base};
     while ( my ( $name, $sheet) = each $data ) {
-        io( "$$self{base}/$name" ) < $sheet->csv 
+        io( "$$self{base}/$name" ) < $sheet->tsv(0);
     }
 }
 
 package App::Tables;
 # ABSTRACT: manipulation of tables from any sources 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 use Modern::Perl;
 use Exporter 'import';
@@ -94,7 +94,7 @@ sub _init_file {
 }
 
 sub extension_of {
-    (shift) ~~ qr{
+    (shift) =~ qr{
         (?: (?<type> / )
             | [.] (?<type> xlsx? )
         )$
@@ -102,13 +102,10 @@ sub extension_of {
 }
 
 sub _file_spec {
-    my ( $desc, $data, $type ) = @_;
-
-    $data or die "no data for $desc";
-
-    for ( $type ||= extension_of($data) || 'dir' ) {
-        $_ = 'dir' if  $_ eq '/'
-    }
+    my ( $data, $type ) = @_;
+    defined $data or die "no data";
+    map { $_ eq '/' and $_ = 'dir' }
+        $type ||= extension_of($data) || 'dir';
 
     { base => $data
     , type => $type }
@@ -117,19 +114,17 @@ sub _file_spec {
 
 sub init {
     my %args = @_ ? @_ : @ARGV;
-
     my %conf = map {
         $args{$_}
         ? ( $_ => [ split /,/, $args{$_} ] )
         : ()
     } qw< can >;
-    $conf{from} = _file_spec input  => @args{qw< from is >};
-    $conf{to}   = _file_spec output => @args{qw< to will >};
 
-    map {
-        die "overwrite $_"
-            if $_ eq $conf{to}{base}
-    } $conf{from}{base};
+    map { die "no $_" unless $args{$_} }
+        qw< from to >;
+
+    $conf{from} = _file_spec @args{qw< from is >};
+    $conf{to}   = _file_spec @args{qw< to will >};
     \%conf
 }
 
@@ -138,6 +133,5 @@ sub provider {
     my $provider = "App::Tables::Provider::$$spec{type}";
     $provider->new( $spec )
 }
-
 
 1;

@@ -44,16 +44,17 @@ test_working_case for
 
 );
 
-for
-( [ "don't overwrite (from foo to foo)"
-  , [qw< from foo to foo >]
-  , qr{overwrite} ]
-) {
-    my ( $description, $arguments, $caught ) = @$_;
-    local @ARGV = @$arguments;
-    ok
-    ( (die_with {init} $caught)
-    , $description)
-}
+# no more testing overwrite: it's your business after all
+# for
+# ( [ "don't overwrite (from foo to foo)"
+#   , [qw< from foo to foo >]
+#   , qr{overwrite} ]
+# ) {
+#     my ( $description, $arguments, $caught ) = @$_;
+#     local @ARGV = @$arguments;
+#     ok
+#     ( (die_with {init} $caught)
+#     , $description)
+# }
 
 done_testing;
